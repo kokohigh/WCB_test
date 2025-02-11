@@ -33,7 +33,7 @@ factory_contract = w3.eth.contract(address=factory_contract_address, abi=factory
 nonce = w3.eth.get_transaction_count(account)
 
 #投票对象
-collectionFac="0xB1b84357eeCb466bB8abB41dC82F73339F4E7c10"
+collectionFac="0xB52e3942ce2a1B5ECe9F2Ae9A353FD7F6B3AB795"
 importerAddr = "0xEa027DFaC014E764644c6c2D509783d66736F557"
 amount = 10000000
 transaction = factory_contract.functions.createCollection(collectionFac, importerAddr,amount).build_transaction({
@@ -53,17 +53,14 @@ txn_hash = w3.eth.send_raw_transaction(signed_txn.raw_transaction)
 txn_receipt = w3.eth.wait_for_transaction_receipt(txn_hash)
 print(f"Transaction receipt: {txn_receipt}")
 
-# # 假设工厂合约触发了一个 NewInstanceCreated 事件
-# event_signature = w3.keccak(text="logCentralBank(CentralBank,address)").hex()
-# event_signature = w3.keccak(text="logCentralBank(address,address,uint256)").hex()
+# 假设工厂合约触发了一个 NewInstanceCreated 事件
+event_signature = w3.keccak(text="logCollection(address,address,address,uint256)").hex()
 # print(event_signature)
 
-# event_logs = txn_receipt['logs']
+event_logs = txn_receipt['logs']
 
-# for log in event_logs:
-#     if log['topics'][0].hex() == event_signature:
-#         addr= log['topics'][1].hex()
-#         #print(addr)
-#         new_contract_address = w3.to_checksum_address(addr[-40:])
-#         print(f"New contract deployed at: {new_contract_address}")
-#         break
+for log in event_logs:
+    if log['topics'][0].hex() == event_signature:
+        collection = log['topics'][1].hex()
+        print(f"New Letter of Credit is deployed at: {w3.to_checksum_address(collection[-40:])}")
+        break

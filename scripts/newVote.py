@@ -62,7 +62,6 @@ txn_receipt = w3.eth.wait_for_transaction_receipt(txn_hash)
 
 
 # # 假设工厂合约触发了一个 NewInstanceCreated 事件
-# event_signature = w3.keccak(text="logCentralBank(CentralBank,address)").hex()
 event_signature = w3.keccak(text="logVote(address,uint256,uint256)").hex()
 #print(event_signature)
 event_logs = txn_receipt['logs']

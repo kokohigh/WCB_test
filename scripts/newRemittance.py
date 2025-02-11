@@ -51,19 +51,21 @@ signed_txn = w3.eth.account.sign_transaction(transaction, private_key=private_ke
 txn_hash = w3.eth.send_raw_transaction(signed_txn.raw_transaction)
 
 txn_receipt = w3.eth.wait_for_transaction_receipt(txn_hash)
-print(f"Transaction receipt: {txn_receipt}")
+#print(f"Transaction receipt: {txn_receipt}")
 
 # # 假设工厂合约触发了一个 NewInstanceCreated 事件
-# event_signature = w3.keccak(text="logCentralBank(CentralBank,address)").hex()
-# event_signature = w3.keccak(text="logCentralBank(address,address,uint256)").hex()
-# print(event_signature)
 
-# event_logs = txn_receipt['logs']
+event_signature = w3.keccak(text="logRemittance(address,address)").hex()
+#print(event_signature)
 
-# for log in event_logs:
-#     if log['topics'][0].hex() == event_signature:
-#         addr= log['topics'][1].hex()
-#         #print(addr)
-#         new_contract_address = w3.to_checksum_address(addr[-40:])
-#         print(f"New contract deployed at: {new_contract_address}")
-#         break
+event_logs = txn_receipt['logs']
+
+for log in event_logs:
+    if log['topics'][0].hex() == event_signature:
+        remi = log['topics'][1].hex()
+        receiver = log['topics'][2].hex()
+        new_contract_address = w3.to_checksum_address(remi[-40:])
+        print(f"New Remittance deployed at: {new_contract_address}")
+        receiver_address = w3.to_checksum_address(receiver[-40:])
+        print(f"Receiver is: {receiver_address}")
+    break

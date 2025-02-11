@@ -50,12 +50,19 @@ txn_hash = w3.eth.send_raw_transaction(signed_txn.raw_transaction)
 
 # 获取交易收据 # 解包有问题
 txn_receipt = w3.eth.wait_for_transaction_receipt(txn_hash)
-log = txn_receipt['logs']
-print(type(log))
-result = log[0]
-if result[-1]==0:
-    print("Failed to vote")
-elif result[-1]==1:
-    print("Successed to vote")
-else:
-    print("Error.")
+
+event_signature = w3.keccak(text="logVoteSuccess(address, bool)").hex()
+
+#print(event_signature)
+event_logs = txn_receipt['logs']
+
+for log in event_logs:
+    result = log["data"].hex()
+
+    if result[-1]=="0":
+        print("Failed to vote")
+    elif result[-1]=="1":
+        print("Successed to vote")
+    else:
+        print("Error.")
+    break

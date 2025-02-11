@@ -54,8 +54,8 @@ txn_receipt = w3.eth.wait_for_transaction_receipt(txn_hash)
 
 
 # # 假设工厂合约触发了一个 NewInstanceCreated 事件
-# event_signature = w3.keccak(text="logCentralBank(CentralBank,address)").hex()
 event_signature = w3.keccak(text="logCentralBank(address,address,uint256)").hex()
+
 #print(event_signature)
 event_logs = txn_receipt['logs']
 
@@ -66,14 +66,3 @@ for log in event_logs:
         new_contract_address = w3.to_checksum_address(addr[-40:])
         print(f"New contract deployed at: {new_contract_address}")
         break
-
-# # 解析交易收据的 logs
-# if txn_receipt['status'] == 1:  # 交易成功
-#     for log in txn_receipt['logs']:
-#         if len(log['topics']) > 0:  # 检查是否有事件
-#             # 假设新合约地址在 logs 的 data 字段中
-#             new_contract_address = w3.to_checksum_address(log['data'][-40:])
-#             print(f"New contract deployed at: {new_contract_address}")
-#             break
-# else:
-#     print("Transaction failed")

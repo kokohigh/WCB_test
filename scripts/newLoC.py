@@ -53,19 +53,16 @@ signed_txn = w3.eth.account.sign_transaction(transaction, private_key=private_ke
 txn_hash = w3.eth.send_raw_transaction(signed_txn.raw_transaction)
 
 txn_receipt = w3.eth.wait_for_transaction_receipt(txn_hash)
-print(f"Transaction receipt: {txn_receipt}")
+#print(f"Transaction receipt: {txn_receipt}")
 
-# # 假设工厂合约触发了一个 NewInstanceCreated 事件
-# event_signature = w3.keccak(text="logCentralBank(CentralBank,address)").hex()
-# event_signature = w3.keccak(text="logCentralBank(address,address,uint256)").hex()
-# print(event_signature)
+#工厂合约触发了一个 NewInstanceCreated 事件
+event_signature = w3.keccak(text="logLOC(address,address,address)").hex()  ####签名不可以有空格
+#print(event_signature)
 
-# event_logs = txn_receipt['logs']
+event_logs = txn_receipt['logs']
 
-# for log in event_logs:
-#     if log['topics'][0].hex() == event_signature:
-#         addr= log['topics'][1].hex()
-#         #print(addr)
-#         new_contract_address = w3.to_checksum_address(addr[-40:])
-#         print(f"New contract deployed at: {new_contract_address}")
-#         break
+for log in event_logs:
+    if log['topics'][0].hex() == event_signature:
+        loc = log['topics'][1].hex()
+        print(f"New Letter of Credit is deployed at: {w3.to_checksum_address(loc[-40:])}")
+        break
