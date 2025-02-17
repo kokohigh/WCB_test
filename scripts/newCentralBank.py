@@ -1,19 +1,21 @@
 from web3 import Web3
 import json
-from Accounts import accounts,private_keys
+
+#这个需要三个参数，WCB地址，CBfac地址，私钥
+factory_contract_address = "0xb683bC7f200B1C7567EC48096920DA52977816a6" #str(sys.argv[1]) #WCB address
+cbFactory= "0x47bAa1c7edc02167a44DD3cCf6dd6ba095080Bb4" #str(sys.argv[2])
+# 获取账户和私钥
+account ="0xa8e4C3b0264D54d6270ADCC58b759068B626A150" #w3.eth.account.from_key(private_key)  # 替换为你的私钥
+private_key = "d6b11725f930f3905d9fabed40ecf26a34f8c4b85275d68e1cd874cf87f2f4c1" #str(sys.argv[3])
 
 
 # 连接节点（如Infura或本地节点）
 w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
-
 # 检查连接
 if w3.is_connected():
     print("Connected to Ethereum node")
 else:
     print("Failed to connect")
-
-#WCB address
-factory_contract_address = '0xf13e7a8ADde96f8FFEF2b6258833D48eD9D78B8b' 
 
 # 读取 JSON 文件
 with open('../ABIs/WCB.json', 'r') as file:
@@ -26,15 +28,15 @@ factory_contract = w3.eth.contract(address=factory_contract_address, abi=factory
 
 
 # 获取账户和私钥
-account = "0xa8e4C3b0264D54d6270ADCC58b759068B626A150"
-private_key = "d6b11725f930f3905d9fabed40ecf26a34f8c4b85275d68e1cd874cf87f2f4c1"
+#account ="0xa8e4C3b0264D54d6270ADCC58b759068B626A150" #w3.eth.account.from_key(private_key)  # 替换为你的私钥
+
+#account = "0xa8e4C3b0264D54d6270ADCC58b759068B626A150"
 # acct1 = w3.eth.accounts[0]
 # print(acct1)
 
 # 构建交易
 nonce = w3.eth.get_transaction_count(account)
 
-cbFactory= "0xFdb1f82894dF901291867583b172e0117f103D6F"
 transaction = factory_contract.functions.createCentralBank(cbFactory).build_transaction({
     'chainId': 5777,  # ganache
     'gas': 16721975,
@@ -64,5 +66,5 @@ for log in event_logs:
         addr= log['topics'][1].hex()
         #print(addr)
         new_contract_address = w3.to_checksum_address(addr[-40:])
-        print(f"New contract deployed at: {new_contract_address}")
+        print(f"New Central bank deployed at: {new_contract_address}")
         break

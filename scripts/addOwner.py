@@ -13,7 +13,7 @@ else:
     print("Failed to connect")
 
 #WCB address
-factory_contract_address = '0xf13e7a8ADde96f8FFEF2b6258833D48eD9D78B8b' 
+factory_contract_address = '0xb683bC7f200B1C7567EC48096920DA52977816a6' 
 
 # 读取 JSON 文件
 with open('../ABIs/WCB.json', 'r') as file:
@@ -34,10 +34,10 @@ private_key = "d6b11725f930f3905d9fabed40ecf26a34f8c4b85275d68e1cd874cf87f2f4c1"
 # 构建交易
 nonce = w3.eth.get_transaction_count(account)
 
-uaddr = "0xEa027DFaC014E764644c6c2D509783d66736F557"
-vote = "0x09970531a67876553ce644E91B3C73B814FBF9c0"
-start = 1739254643
-over = 1739254743
+uaddr = "0xEa027DFaC014E764644c6c2D509783d66736F557" #被添加的对象地址
+vote = "0xF51556B96f6f73A432B020e6DA4e33C0Bb0eF896" #投票的地址
+start = 1739783134
+over = 1739783254
 transaction = factory_contract.functions.addOwner(uaddr,vote,start,over).build_transaction({
     'chainId': 5777,  # ganache
     'gas': 16721975,

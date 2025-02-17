@@ -14,7 +14,7 @@ else:
     print("Failed to connect")
 
 #WCB address
-factory_contract_address = '0xf13e7a8ADde96f8FFEF2b6258833D48eD9D78B8b' 
+factory_contract_address = '0xb683bC7f200B1C7567EC48096920DA52977816a6' 
 
 # 读取 JSON 文件
 with open('../ABIs/WCB.json', 'r') as file:
@@ -34,7 +34,7 @@ private_key = "d6b11725f930f3905d9fabed40ecf26a34f8c4b85275d68e1cd874cf87f2f4c1"
 
 # 构建交易
 nonce = w3.eth.get_transaction_count(account)
-voteFac = "0x326F8064729fe0c0e43E16567A01fba866a9607E"
+voteFac = "0xd5fB8E26C78113598977818212F2Ab268f139C6D" #Vote工厂地址
 addUser = "ADDOWNER"
 addr = "0xEa027DFaC014E764644c6c2D509783d66736F557"
 amount = 0

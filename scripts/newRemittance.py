@@ -1,7 +1,14 @@
 from web3 import Web3
 import json
-from Accounts import accounts,private_keys
+import sys
 
+
+#接收4个参数：CB地址，Remi工厂地址，收款人地址，私钥
+#CB address
+factory_contract_address = '0x900533B994068dc74ba4997338f14288B65C01C7' 
+remittanceFac="0xda6444F4a26b510fB104B7DA5bf8814cDB5cc163"
+toAddr =  "0xEa027DFaC014E764644c6c2D509783d66736F557"
+private_key = "d6b11725f930f3905d9fabed40ecf26a34f8c4b85275d68e1cd874cf87f2f4c1"
 
 # 连接节点（如Infura或本地节点）
 w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
@@ -14,10 +21,8 @@ else:
 
 # 获取账户和私钥
 account = "0xa8e4C3b0264D54d6270ADCC58b759068B626A150"
-private_key = "d6b11725f930f3905d9fabed40ecf26a34f8c4b85275d68e1cd874cf87f2f4c1"
 
-#CB address
-factory_contract_address = '0x061C644683961256BB06637Cd1e6FD867F0B3b11' 
+
 
 # 读取 JSON 文件
 with open('../ABIs/CB.json', 'r') as file:
@@ -34,8 +39,7 @@ nonce = w3.eth.get_transaction_count(account)
 value_in_wei = w3.to_wei(1, 'ether')
 
 #投票对象
-remittanceFac="0xB1b84357eeCb466bB8abB41dC82F73339F4E7c10"
-toAddr = "0xEa027DFaC014E764644c6c2D509783d66736F557"
+
 transaction = factory_contract.functions.createRemittance(remittanceFac, toAddr).build_transaction({
     'chainId': 5777,  # ganache
     'gas': 16721975,

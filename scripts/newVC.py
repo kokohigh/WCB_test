@@ -1,6 +1,5 @@
 from web3 import Web3
 import json
-from Accounts import accounts,private_keys
 
 
 # 连接节点（如Infura或本地节点）
@@ -27,7 +26,8 @@ with open('../ABIs/versionController2.bin', 'r') as f:
 MyContract = w3.eth.contract(abi=abi, bytecode=bytecode)
 
 # 部署合约
-owners = ["0xEa027DFaC014E764644c6c2D509783d66736F557","0x5C8E53DfbF8CcB5017582391EA73873afe44108E","0x99257983D6Faa395C88fa1ae5b94A6DF1b00FBf4"]
+owners = {"owners":["0xEa027DFaC014E764644c6c2D509783d66736F557","0x5C8E53DfbF8CcB5017582391EA73873afe44108E","0x99257983D6Faa395C88fa1ae5b94A6DF1b00FBf4"]}
+#print(type(sys.argv[1:(len(sys.argv)-1)]))
 tx_hash = MyContract.constructor(owners).transact()
 tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
 

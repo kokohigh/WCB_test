@@ -1,6 +1,21 @@
 from web3 import Web3
 import json
 from Accounts import accounts,private_keys
+import sys
+
+
+# 接收3个参数，央行地址，投票对象，私钥
+
+#CB address
+factory_contract_address = '0x8d8eE2613F52b42455d89828Ea2Aaadf352b567F' 
+
+#投票对象
+vote= "0xF51556B96f6f73A432B020e6DA4e33C0Bb0eF896"
+
+# 获取账户和私钥
+account = "0xa8e4C3b0264D54d6270ADCC58b759068B626A150"
+private_key = "d6b11725f930f3905d9fabed40ecf26a34f8c4b85275d68e1cd874cf87f2f4c1"
+
 
 
 # 连接节点（如Infura或本地节点）
@@ -12,12 +27,7 @@ if w3.is_connected():
 else:
     print("Failed to connect")
 
-# 获取账户和私钥
-account = "0xa8e4C3b0264D54d6270ADCC58b759068B626A150"
-private_key = "d6b11725f930f3905d9fabed40ecf26a34f8c4b85275d68e1cd874cf87f2f4c1"
-
-#CB address
-factory_contract_address = '0x061C644683961256BB06637Cd1e6FD867F0B3b11' 
+#account = w3.eth.account.from_key(private_key)  # 替换为你的私钥
 
 # 读取 JSON 文件
 with open('../ABIs/CB.json', 'r') as file:
@@ -32,8 +42,6 @@ factory_contract = w3.eth.contract(address=factory_contract_address, abi=factory
 # 构建交易
 nonce = w3.eth.get_transaction_count(account)
 
-#投票对象
-vote="0x765Edf7b2D5c13896260EB4FeDa3e81518232f79"
 
 transaction = factory_contract.functions.affirmativeVote(vote).build_transaction({
     'chainId': 5777,  # ganache
@@ -50,6 +58,7 @@ txn_hash = w3.eth.send_raw_transaction(signed_txn.raw_transaction)
 
 # 获取交易收据 # 解包有问题
 txn_receipt = w3.eth.wait_for_transaction_receipt(txn_hash)
+print(txn_receipt)
 
 event_signature = w3.keccak(text="logVoteSuccess(address, bool)").hex()
 

@@ -1,0 +1,50 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_ds",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "contract Remittance",
+				"name": "remittance",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "receiver",
+				"type": "address"
+			}
+		],
+		"name": "logRemittance",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			}
+		],
+		"name": "createRemittance",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	}
+]
