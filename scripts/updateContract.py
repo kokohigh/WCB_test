@@ -1,6 +1,6 @@
 from web3 import Web3
 import json
-from Accounts import accounts,private_keys
+import Accounts
 
 
 # 连接节点（如Infura或本地节点）
@@ -8,12 +8,12 @@ w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
 
 # 检查连接
 if w3.is_connected():
-    print("Connected to Ethereum node")
+    print("Connected")
 else:
     print("Failed to connect")
 
 #VS2 address
-factory_contract_address = '0xf13e7a8ADde96f8FFEF2b6258833D48eD9D78B8b' 
+factory_contract_address = Accounts.VC 
 
 # 读取 JSON 文件
 with open('../ABIs/versionController2.json', 'r') as file:
@@ -26,20 +26,20 @@ factory_contract = w3.eth.contract(address=factory_contract_address, abi=factory
 
 
 # 获取账户和私钥
-account = "0xa8e4C3b0264D54d6270ADCC58b759068B626A150"
-private_key = "d6b11725f930f3905d9fabed40ecf26a34f8c4b85275d68e1cd874cf87f2f4c1"
+account = Accounts.account_1
+private_key = Accounts.private_key_1
 # acct1 = w3.eth.accounts[0]
 # print(acct1)
 
 # 构建交易
 nonce = w3.eth.get_transaction_count(account)
 
-voteAddr= "0xFdb1f82894dF901291867583b172e0117f103D6F"
-Name = "UPDATEVERSION"
-newVersion="0xEB6311ad93A34Db823aBCf741884D85b66185733" #remittance factory 2
-start= 1
-over=2
-transaction = factory_contract.functions.updateVersion(voteAddr,Name,newVersion,start,over).build_transaction({
+voteAddr= "0xB6596ef605B45F0601eF341A3c177535e47dDD78"
+Name = "remittanceVersion"
+newVersion="0x7E93b63B305F03B182662C0eb1CAaf760ED4aFEF" #remittance factory 2
+start= 1739866892
+over= 1739867012
+transaction = factory_contract.functions.updateSFSVersion(voteAddr,Name,newVersion,start,over).build_transaction({
     'chainId': 5777,  # ganache
     'gas': 16721975,
     'gasPrice': w3.to_wei('50', 'gwei'),
@@ -59,14 +59,14 @@ print(f"Transaction receipt: {txn_receipt}")
 
 # # 假设工厂合约触发了一个 NewInstanceCreated 事件
 # event_signature = w3.keccak(text="logCentralBank(CentralBank,address)").hex()
-event_signature = w3.keccak(text="logCentralBank(address,address,uint256)").hex()
-#print(event_signature)
-event_logs = txn_receipt['logs']
+# event_signature = w3.keccak(text="logCentralBank(address,address,uint256)").hex()
+# #print(event_signature)
+# event_logs = txn_receipt['logs']
 
-for log in event_logs:
-    if log['topics'][0].hex() == event_signature:
-        addr= log['topics'][1].hex()
-        #print(addr)
-        new_contract_address = w3.to_checksum_address(addr[-40:])
-        print(f"New contract deployed at: {new_contract_address}")
-        break
+# for log in event_logs:
+#     if log['topics'][0].hex() == event_signature:
+#         addr= log['topics'][1].hex()
+#         #print(addr)
+#         new_contract_address = w3.to_checksum_address(addr[-40:])
+#         print(f"New contract deployed at: {new_contract_address}")
+#         break

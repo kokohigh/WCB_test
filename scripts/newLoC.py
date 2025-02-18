@@ -1,6 +1,6 @@
 from web3 import Web3
 import json
-from Accounts import accounts,private_keys
+import Accounts
 
 
 # 连接节点（如Infura或本地节点）
@@ -8,16 +8,16 @@ w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
 
 # 检查连接
 if w3.is_connected():
-    print("Connected to Ethereum node")
+    print("Connected")
 else:
     print("Failed to connect")
 
 # 获取账户和私钥
-account = "0xa8e4C3b0264D54d6270ADCC58b759068B626A150"
-private_key = "d6b11725f930f3905d9fabed40ecf26a34f8c4b85275d68e1cd874cf87f2f4c1"
+account = Accounts.account_1
+private_key = Accounts.private_key_1
 
 #CB address
-factory_contract_address = '0x061C644683961256BB06637Cd1e6FD867F0B3b11' 
+factory_contract_address = Accounts.CB_1 
 
 # 读取 JSON 文件
 with open('../ABIs/CB.json', 'r') as file:
@@ -34,9 +34,9 @@ nonce = w3.eth.get_transaction_count(account)
 value_in_wei = w3.to_wei(1, 'ether')
 
 #投票对象
-locFac="0xC6933fAB9B23eADFa330d47786275eCdE6a4a0C3"
-exporterAddr = "0xEa027DFaC014E764644c6c2D509783d66736F557"
-oracleAddr = "0xF78A3db477f6203d06228b04Bb6DfD832644c3e5"
+locFac = Accounts.LoC
+exporterAddr = Accounts.account_2
+oracleAddr = Accounts.Oracle
 deadline = 100
 transaction = factory_contract.functions.createLetterOfCredit(locFac,exporterAddr,oracleAddr,deadline).build_transaction({
     'chainId': 5777,  # ganache

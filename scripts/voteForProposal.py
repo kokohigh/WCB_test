@@ -1,20 +1,19 @@
 from web3 import Web3
 import json
-from Accounts import accounts,private_keys
-import sys
+import Accounts
 
 
 # 接收3个参数，央行地址，投票对象，私钥
 
 #CB address
-factory_contract_address = '0x8d8eE2613F52b42455d89828Ea2Aaadf352b567F' 
+factory_contract_address =  Accounts.CB_1
 
 #投票对象
-vote= "0xF51556B96f6f73A432B020e6DA4e33C0Bb0eF896"
+vote= "0xB6596ef605B45F0601eF341A3c177535e47dDD78"
 
 # 获取账户和私钥
-account = "0xa8e4C3b0264D54d6270ADCC58b759068B626A150"
-private_key = "d6b11725f930f3905d9fabed40ecf26a34f8c4b85275d68e1cd874cf87f2f4c1"
+account = Accounts.account_1
+private_key = Accounts.private_key_1
 
 
 
@@ -23,7 +22,7 @@ w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
 
 # 检查连接
 if w3.is_connected():
-    print("Connected to Ethereum node")
+    print("Connected")
 else:
     print("Failed to connect")
 

@@ -1,6 +1,6 @@
 from web3 import Web3
 import json
-from Accounts import accounts,private_keys
+import Accounts
 
 
 # 连接节点（如Infura或本地节点）
@@ -8,12 +8,12 @@ w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
 
 # 检查连接
 if w3.is_connected():
-    print("Connected to Ethereum node")
+    print("Connected")
 else:
     print("Failed to connect")
 
 
-private_key = "d6b11725f930f3905d9fabed40ecf26a34f8c4b85275d68e1cd874cf87f2f4c1"
+private_key = Accounts.private_key_1
 account = w3.eth.account.from_key(private_key)  # 替换为你的私钥
 w3.eth.default_account = account.address
 

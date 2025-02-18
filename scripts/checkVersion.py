@@ -1,9 +1,9 @@
 from web3 import Web3
 import json
-import sys
+import Accounts
 
 #Version controller address #调整成命令行输入
-factory_contract_address = str(sys.argv[1])
+factory_contract_address = Accounts.VC
 
 # 连接节点（如Infura或本地节点）
 w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))

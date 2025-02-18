@@ -1,27 +1,25 @@
 from web3 import Web3
 import json
-import sys
+import Accounts
 
 
 #接收4个参数：CB地址，Remi工厂地址，收款人地址，私钥
 #CB address
-factory_contract_address = '0x900533B994068dc74ba4997338f14288B65C01C7' 
-remittanceFac="0xda6444F4a26b510fB104B7DA5bf8814cDB5cc163"
-toAddr =  "0xEa027DFaC014E764644c6c2D509783d66736F557"
-private_key = "d6b11725f930f3905d9fabed40ecf26a34f8c4b85275d68e1cd874cf87f2f4c1"
+factory_contract_address = Accounts.CB_1 
+remittanceFac= Accounts.Remi
+toAddr =  Accounts.account_2
+
+account = Accounts.account_1
+private_key = Accounts.private_key_1
 
 # 连接节点（如Infura或本地节点）
 w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
 
 # 检查连接
 if w3.is_connected():
-    print("Connected to Ethereum node")
+    print("Connected")
 else:
     print("Failed to connect")
-
-# 获取账户和私钥
-account = "0xa8e4C3b0264D54d6270ADCC58b759068B626A150"
-
 
 
 # 读取 JSON 文件
@@ -36,7 +34,7 @@ factory_contract = w3.eth.contract(address=factory_contract_address, abi=factory
 
 # 构建交易
 nonce = w3.eth.get_transaction_count(account)
-value_in_wei = w3.to_wei(1, 'ether')
+value_in_wei = w3.to_wei(0.1, 'ether')
 
 #投票对象
 

@@ -1,6 +1,6 @@
 from web3 import Web3
 import json
-from Accounts import accounts,private_keys
+import Accounts
 
 
 # 连接节点（如Infura或本地节点）
@@ -8,12 +8,12 @@ w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
 
 # 检查连接
 if w3.is_connected():
-    print("Connected to Ethereum node")
+    print("Connected")
 else:
     print("Failed to connect")
 
 #WCB address
-factory_contract_address = '0xb683bC7f200B1C7567EC48096920DA52977816a6' 
+factory_contract_address = Accounts.WCB
 
 # 读取 JSON 文件
 with open('../ABIs/WCB.json', 'r') as file:
@@ -26,8 +26,8 @@ factory_contract = w3.eth.contract(address=factory_contract_address, abi=factory
 
 
 # 获取账户和私钥
-account = "0xa8e4C3b0264D54d6270ADCC58b759068B626A150"
-private_key = "d6b11725f930f3905d9fabed40ecf26a34f8c4b85275d68e1cd874cf87f2f4c1"
+account = Accounts.account_1
+private_key = Accounts.private_key_1
 # acct1 = w3.eth.accounts[0]
 # print(acct1)
 
@@ -35,9 +35,9 @@ private_key = "d6b11725f930f3905d9fabed40ecf26a34f8c4b85275d68e1cd874cf87f2f4c1"
 nonce = w3.eth.get_transaction_count(account)
 
 uaddr = "0xEa027DFaC014E764644c6c2D509783d66736F557" #被添加的对象地址
-vote = "0xF51556B96f6f73A432B020e6DA4e33C0Bb0eF896" #投票的地址
-start = 1739783134
-over = 1739783254
+vote = "0x65986EF1A13d30b9d1d1A23D98C796FbEA55998D" #投票的地址
+start = 1739864862
+over = 1739864982
 transaction = factory_contract.functions.addOwner(uaddr,vote,start,over).build_transaction({
     'chainId': 5777,  # ganache
     'gas': 16721975,
@@ -51,9 +51,16 @@ signed_txn = w3.eth.account.sign_transaction(transaction, private_key=private_ke
 # 发送交易
 txn_hash = w3.eth.send_raw_transaction(signed_txn.raw_transaction)
 
+
 # 获取交易收据
 txn_receipt = w3.eth.wait_for_transaction_receipt(txn_hash)
 print(f"Transaction receipt: {txn_receipt}")
+
+if txn_receipt['status'] == 1:
+    print("Succeed to add owner")
+else:
+    print("Failed to add user.")
+
 
 
 # # 假设工厂合约触发了一个 NewInstanceCreated 事件

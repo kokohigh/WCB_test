@@ -1,19 +1,20 @@
 from web3 import Web3
 import json
+import Accounts
 
 #这个需要三个参数，WCB地址，CBfac地址，私钥
-factory_contract_address = "0xb683bC7f200B1C7567EC48096920DA52977816a6" #str(sys.argv[1]) #WCB address
-cbFactory= "0x47bAa1c7edc02167a44DD3cCf6dd6ba095080Bb4" #str(sys.argv[2])
+factory_contract_address = Accounts.WCB #WCB address
+cbFactory= Accounts.CBFac #str(sys.argv[2])
 # 获取账户和私钥
-account ="0xa8e4C3b0264D54d6270ADCC58b759068B626A150" #w3.eth.account.from_key(private_key)  # 替换为你的私钥
-private_key = "d6b11725f930f3905d9fabed40ecf26a34f8c4b85275d68e1cd874cf87f2f4c1" #str(sys.argv[3])
+account = Accounts.account_1 #w3.eth.account.from_key(private_key)  # 替换为你的私钥
+private_key = Accounts.private_key_1 #str(sys.argv[3])
 
 
 # 连接节点（如Infura或本地节点）
 w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
 # 检查连接
 if w3.is_connected():
-    print("Connected to Ethereum node")
+    print("Connected")
 else:
     print("Failed to connect")
 
@@ -26,13 +27,6 @@ with open('../ABIs/WCB.json', 'r') as file:
 # 创建合约实例
 factory_contract = w3.eth.contract(address=factory_contract_address, abi=factory_contract_abi)
 
-
-# 获取账户和私钥
-#account ="0xa8e4C3b0264D54d6270ADCC58b759068B626A150" #w3.eth.account.from_key(private_key)  # 替换为你的私钥
-
-#account = "0xa8e4C3b0264D54d6270ADCC58b759068B626A150"
-# acct1 = w3.eth.accounts[0]
-# print(acct1)
 
 # 构建交易
 nonce = w3.eth.get_transaction_count(account)
